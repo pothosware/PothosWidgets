@@ -1,10 +1,9 @@
-// Copyright (c) 2014-2014 Josh Blum
+// Copyright (c) 2014-2015 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
-#include "WidgetUtils.hpp"
 #include <QSlider>
 
-class POTHOS_WIDGET_UTILS_EXPORT MyDoubleSlider : public QSlider
+class MyDoubleSlider : public QSlider
 {
     Q_OBJECT
 public:
