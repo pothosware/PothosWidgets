@@ -1,8 +1,9 @@
-// Copyright (c) 2014-2014 Josh Blum
+// Copyright (c) 2014-2016 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
 #include "MyDoubleSlider.hpp"
+#include <QVariant>
 
 /***********************************************************************
  * |PothosDoc Slider
@@ -71,10 +72,21 @@ public:
         this->callVoid("valueChanged", this->value());
     }
 
+signals:
+    void stateChanged(const QVariant &value);
+
+public slots:
+
+    void restoreState(const QVariant &value)
+    {
+        this->setValue(value.toDouble());
+    }
+
 private slots:
     void handleValueChanged(const double value)
     {
         this->callVoid("valueChanged", value);
+        emit this->stateChanged(value);
     }
 };
 

@@ -106,6 +106,17 @@ public:
         QMetaObject::invokeMethod(this, "__setOptions", Qt::QueuedConnection, Q_ARG(Pothos::ObjectVector, options));
     }
 
+
+signals:
+    void stateChanged(const QVariant &value);
+
+public slots:
+
+    void restoreState(const QVariant &value)
+    {
+        
+    }
+
 protected:
     void mousePressEvent(QMouseEvent *event)
     {
