@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Josh Blum
+// Copyright (c) 2014-2016 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -43,12 +43,12 @@ public:
     }
 
 signals:
-    void positionChanged(void);
+    void positionChanged(const QPointF &);
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value)
     {
-        if (change == ItemPositionChange) emit this->positionChanged();
+        if (change == ItemPositionChange) emit this->positionChanged(value.toPointF());
         return QGraphicsObject::itemChange(change, value);
     }
 
@@ -115,7 +115,7 @@ public:
         this->setRenderHint(QPainter::SmoothPixmapTransform);
 
         //forward position changed signal
-        connect(_crossHairs, SIGNAL(positionChanged(void)), this, SLOT(handleCrossHairsPointChanged(void)));
+        connect(_crossHairs, SIGNAL(positionChanged(const QPointF &)), this, SLOT(handleCrossHairsPointChanged(const QPointF &)));
     }
 
     QPointF getPosition(void) const
@@ -139,9 +139,9 @@ signals:
     void positionChanged(const QPointF &);
 
 private slots:
-    void handleCrossHairsPointChanged(void)
+    void handleCrossHairsPointChanged(const QPointF &pos)
     {
-        emit this->positionChanged(this->getPosition());
+        emit this->positionChanged(this->scenePosToRelPos(pos));
     }
 
 protected:
