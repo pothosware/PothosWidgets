@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Josh Blum
+// Copyright (c) 2014-2016 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -43,12 +43,12 @@ public:
     }
 
 signals:
-    void positionChanged(void);
+    void positionChanged(const QPointF &);
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value)
     {
-        if (change == ItemPositionChange) emit this->positionChanged();
+        if (change == ItemPositionChange) emit this->positionChanged(value.toPointF());
         return QGraphicsObject::itemChange(change, value);
     }
 
@@ -115,7 +115,7 @@ public:
         this->setRenderHint(QPainter::SmoothPixmapTransform);
 
         //forward position changed signal
-        connect(_crossHairs, SIGNAL(positionChanged(void)), this, SLOT(handleCrossHairsPointChanged(void)));
+        connect(_crossHairs, SIGNAL(positionChanged(const QPointF &)), this, SLOT(handleCrossHairsPointChanged(const QPointF &)));
     }
 
     QPointF getPosition(void) const
@@ -123,6 +123,7 @@ public:
         return this->scenePosToRelPos(_crossHairs->pos());
     }
 
+public slots:
     void setPosition(const QPointF &rel_)
     {
         //clip to 0.0 -> 1.0 to keep in bounds
@@ -138,9 +139,9 @@ signals:
     void positionChanged(const QPointF &);
 
 private slots:
-    void handleCrossHairsPointChanged(void)
+    void handleCrossHairsPointChanged(const QPointF &pos)
     {
-        emit this->positionChanged(this->getPosition());
+        emit this->positionChanged(this->scenePosToRelPos(pos));
     }
 
 protected:
@@ -270,7 +271,8 @@ public:
         _value = QPointF(value[0], value[1]);
         const auto pos = _value - _minimum;
         const auto range = _maximum - _minimum;
-        _view->setPosition(QPointF(pos.x()/range.x(), pos.y()/range.y()));
+        const QPointF viewPos(pos.x()/range.x(), pos.y()/range.y());
+        QMetaObject::invokeMethod(_view, "setPosition", Qt::QueuedConnection, Q_ARG(QPointF, viewPos));
     }
 
     void setMinimum(const std::vector<double> &minimum)
