@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2014 Josh Blum
+// Copyright (c) 2014-2016 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -152,6 +152,16 @@ public:
         QMetaObject::invokeMethod(_slider, "setVisible", Qt::QueuedConnection, Q_ARG(bool, visible));
     }
 
+signals:
+    void stateChanged(const QVariant &value);
+
+public slots:
+
+    void restoreState(const QVariant &value)
+    {
+        this->setValue(value.toDouble());
+    }
+
 private slots:
     void handleValueChanged(const double value)
     {
@@ -162,6 +172,7 @@ private slots:
         _slider->blockSignals(false);
 
         this->callVoid("valueChanged", value);
+        emit this->stateChanged(value);
     }
 
 private:

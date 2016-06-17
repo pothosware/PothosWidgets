@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Josh Blum
+// Copyright (c) 2014-2016 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -114,7 +114,9 @@ public slots:
 
     void restoreState(const QVariant &value)
     {
-        
+        const size_t index = value.toUInt();
+        if (index >= _radioToOption.size()) return;
+        __setValue(_radioToOption[index].second);
     }
 
 protected:
@@ -138,7 +140,7 @@ private slots:
             auto value = optPair.at(1);
             auto radio = new QRadioButton(title, this);
             connect(radio, SIGNAL(toggled(bool)), this, SLOT(handleRadioChanged(bool)));
-            _radioToOption[radio] = value;
+            _radioToOption.push_back(std::make_pair(radio, value));
             _layout->addWidget(radio);
         }
 
@@ -157,6 +159,11 @@ private slots:
     {
         if (not toggled) return;
         this->callVoid("valueChanged", this->value());
+        for (size_t i = 0; i < _radioToOption.size(); i++)
+        {
+            if (_radioToOption[i].first->isChecked())
+                emit this->stateChanged(int(i));
+        }
     }
 
     void handleSetTitle(const QString &title)
@@ -173,7 +180,7 @@ private:
     }
 
     QVBoxLayout *_layout;
-    std::map<QRadioButton *, Pothos::Object> _radioToOption;
+    std::vector<std::pair<QRadioButton *, Pothos::Object>> _radioToOption;
 };
 
 static Pothos::BlockRegistry registerRadioGroup(

@@ -3,6 +3,7 @@ This this the changelog file for the Pothos Widgets toolkit.
 Release 0.3.1 (pending)
 ==========================
 
+- Added save and restore hooks to all control widgets
 - Fixed planar select setValue and itemChange position
 - Added missing serialization to debian Build-Depends
 

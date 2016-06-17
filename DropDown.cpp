@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2014 Josh Blum
+// Copyright (c) 2014-2016 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -143,6 +143,18 @@ public:
         QMetaObject::invokeMethod(_label, "setText", Qt::QueuedConnection, Q_ARG(QString, text));
     }
 
+signals:
+    void stateChanged(const QVariant &value);
+
+public slots:
+
+    void restoreState(const QVariant &value)
+    {
+        const size_t index = value.toUInt();
+        if (index >= _optionValues.size()) return;
+        __setValue(_optionValues[index]);
+    }
+
 private slots:
 
     void __setOptions(const Pothos::ObjectVector &options)
@@ -171,10 +183,11 @@ private slots:
         }
     }
 
-    void handleIndexChanged(int)
+    void handleIndexChanged(const int index)
     {
         this->callVoid("valueChanged", this->value());
         this->callVoid("labelChanged", this->label());
+        emit this->stateChanged(index);
     }
 
 private:
