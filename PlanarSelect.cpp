@@ -123,6 +123,7 @@ public:
         return this->scenePosToRelPos(_crossHairs->pos());
     }
 
+public slots:
     void setPosition(const QPointF &rel_)
     {
         //clip to 0.0 -> 1.0 to keep in bounds
@@ -270,7 +271,8 @@ public:
         _value = QPointF(value[0], value[1]);
         const auto pos = _value - _minimum;
         const auto range = _maximum - _minimum;
-        _view->setPosition(QPointF(pos.x()/range.x(), pos.y()/range.y()));
+        const QPointF viewPos(pos.x()/range.x(), pos.y()/range.y());
+        QMetaObject::invokeMethod(_view, "setPosition", Qt::QueuedConnection, Q_ARG(QPointF, viewPos));
     }
 
     void setMinimum(const std::vector<double> &minimum)
