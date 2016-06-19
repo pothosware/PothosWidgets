@@ -293,14 +293,16 @@ public:
         this->emitValuesChanged();
     }
 
-signals:
-    void stateChanged(const QVariant &value);
-
 public slots:
 
-    void restoreState(const QVariant &value)
+    QVariant saveState(void) const
     {
-        _value = value.toPointF();
+        return _value;
+    }
+
+    void restoreState(const QVariant &state)
+    {
+        _value = state.toPointF();
         this->setValue(this->value());
     }
 
@@ -311,7 +313,6 @@ private slots:
         const auto range = _maximum - _minimum;
         _value = QPointF(pos.x()*range.x(), pos.y()*range.y()) + _minimum;
         this->emitValuesChanged();
-        emit this->stateChanged(_value);
     }
 
     void handleSetTitle(const QString &title)

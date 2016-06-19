@@ -152,14 +152,16 @@ public:
         QMetaObject::invokeMethod(_slider, "setVisible", Qt::QueuedConnection, Q_ARG(bool, visible));
     }
 
-signals:
-    void stateChanged(const QVariant &value);
-
 public slots:
 
-    void restoreState(const QVariant &value)
+    QVariant saveState(void) const
     {
-        this->setValue(value.toDouble());
+        return this->value();
+    }
+
+    void restoreState(const QVariant &state)
+    {
+        this->setValue(state.toDouble());
     }
 
 private slots:
@@ -172,7 +174,6 @@ private slots:
         _slider->blockSignals(false);
 
         this->callVoid("valueChanged", value);
-        emit this->stateChanged(value);
     }
 
 private:

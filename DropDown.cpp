@@ -143,16 +143,16 @@ public:
         QMetaObject::invokeMethod(_label, "setText", Qt::QueuedConnection, Q_ARG(QString, text));
     }
 
-signals:
-    void stateChanged(const QVariant &value);
-
 public slots:
 
-    void restoreState(const QVariant &value)
+    QVariant saveState(void) const
     {
-        const size_t index = value.toUInt();
-        if (index >= _optionValues.size()) return;
-        __setValue(_optionValues[index]);
+        return _comboBox->currentIndex();
+    }
+
+    void restoreState(const QVariant &state)
+    {
+        _comboBox->setCurrentIndex(state.toInt());
     }
 
 private slots:
@@ -183,11 +183,10 @@ private slots:
         }
     }
 
-    void handleIndexChanged(const int index)
+    void handleIndexChanged(const int)
     {
         this->callVoid("valueChanged", this->value());
         this->callVoid("labelChanged", this->label());
-        emit this->stateChanged(index);
     }
 
 private:

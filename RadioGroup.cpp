@@ -106,15 +106,20 @@ public:
         QMetaObject::invokeMethod(this, "__setOptions", Qt::QueuedConnection, Q_ARG(Pothos::ObjectVector, options));
     }
 
-
-signals:
-    void stateChanged(const QVariant &value);
-
 public slots:
 
-    void restoreState(const QVariant &value)
+    QVariant saveState(void) const
     {
-        const size_t index = value.toUInt();
+        for (size_t i = 0; i < _radioToOption.size(); i++)
+        {
+            if (_radioToOption[i].first->isChecked()) return int(i);
+        }
+        return QVariant();
+    }
+
+    void restoreState(const QVariant &state)
+    {
+        const size_t index = state.toUInt();
         if (index >= _radioToOption.size()) return;
         __setValue(_radioToOption[index].second);
     }
@@ -159,11 +164,6 @@ private slots:
     {
         if (not toggled) return;
         this->callVoid("valueChanged", this->value());
-        for (size_t i = 0; i < _radioToOption.size(); i++)
-        {
-            if (_radioToOption[i].first->isChecked())
-                emit this->stateChanged(int(i));
-        }
     }
 
     void handleSetTitle(const QString &title)
