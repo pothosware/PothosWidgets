@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2014 Josh Blum
+// Copyright (c) 2014-2016 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -143,6 +143,18 @@ public:
         QMetaObject::invokeMethod(_label, "setText", Qt::QueuedConnection, Q_ARG(QString, text));
     }
 
+public slots:
+
+    QVariant saveState(void) const
+    {
+        return _comboBox->currentIndex();
+    }
+
+    void restoreState(const QVariant &state)
+    {
+        _comboBox->setCurrentIndex(state.toInt());
+    }
+
 private slots:
 
     void __setOptions(const Pothos::ObjectVector &options)
@@ -171,7 +183,7 @@ private slots:
         }
     }
 
-    void handleIndexChanged(int)
+    void handleIndexChanged(const int)
     {
         this->callVoid("valueChanged", this->value());
         this->callVoid("labelChanged", this->label());

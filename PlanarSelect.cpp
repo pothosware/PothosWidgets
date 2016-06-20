@@ -293,6 +293,19 @@ public:
         this->emitValuesChanged();
     }
 
+public slots:
+
+    QVariant saveState(void) const
+    {
+        return _value;
+    }
+
+    void restoreState(const QVariant &state)
+    {
+        _value = state.toPointF();
+        this->setValue(this->value());
+    }
+
 private slots:
 
     void handlePositionChanged(const QPointF &pos)

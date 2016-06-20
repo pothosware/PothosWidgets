@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2014 Josh Blum
+// Copyright (c) 2014-2016 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -150,6 +150,18 @@ public:
     void setSliderVisible(const bool visible)
     {
         QMetaObject::invokeMethod(_slider, "setVisible", Qt::QueuedConnection, Q_ARG(bool, visible));
+    }
+
+public slots:
+
+    QVariant saveState(void) const
+    {
+        return this->value();
+    }
+
+    void restoreState(const QVariant &state)
+    {
+        this->setValue(state.toDouble());
     }
 
 private slots:
