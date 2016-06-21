@@ -54,8 +54,8 @@ public:
     DigitSpinner(void):
         _spinner(new Indicator())
     {
-        _spinner->setFrameShape(QFrame::Panel);
-        _spinner->setFrameShadow(QFrame::Sunken);
+        _spinner->setFrameShape(QFrame::NoFrame);
+        _spinner->setFrameShadow(QFrame::Plain);
 
         auto layout = new QVBoxLayout(this);
         layout->setContentsMargins(QMargins());
