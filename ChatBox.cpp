@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2015 Josh Blum
+// Copyright (c) 2015-2016 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -34,15 +34,9 @@
  * |default "User0"
  *
  * |param color An identifying display color for this user's messages.
- * |widget ComboBox(editable=true)
- * |option [Blue] "blue"
- * |option [Red] "red"
- * |option [Green] "green"
- * |option [Orange] "orange"
- * |option [Purple] "purple"
- * |option [Cyan] "cyan"
- * |option [Yellow] "yellow"
+ * |widget ColorPicker()
  * |default "blue"
+ * |preview disable
  *
  * |mode graphWidget
  * |factory /widgets/chat_box()
