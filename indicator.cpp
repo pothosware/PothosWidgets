@@ -24,8 +24,12 @@ public:
 
   void resizeEvent(QResizeEvent *event)
   {
+    float w, h;
     QFont f = font();
-    f.setPixelSize(height());
+    QFontMetrics fm(f);
+    w = (float)width() / (float)fm.width(text());
+    h = (float)height() / (float)fm.height();
+    f.setPointSizeF(f.pointSizeF() * qMin(w, h));
     setFont(f);
   }
 
@@ -139,6 +143,7 @@ void Indicator::setSize(int size)
   for(i = size; i > 0; --i)
   {
     digit = new CustomDigit(this);
+    digit->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     digit->setText(QString::number(0));
     digit->setAlignment(Qt::AlignCenter);
     digit->setFont(m_Font);
