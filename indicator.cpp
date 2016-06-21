@@ -89,7 +89,7 @@ public:
 
   bool m_Active;
   int m_State;
-  int m_Delta;
+  qint64 m_Delta;
   Indicator *m_Indicator;
 };
 
@@ -159,9 +159,9 @@ void Indicator::setSize(int size)
 
 //------------------------------------------------------------------------------
 
-void Indicator::setValue(int value)
+void Indicator::setValue(qint64 value)
 {
-  int quotient;
+  qint64 quotient;
   QPalette palette;
   if(value < m_ValueMin || value > m_ValueMax) return;
   foreach(CustomDigit *digit, findChildren<CustomDigit *>())
@@ -185,7 +185,7 @@ void Indicator::setValue(int value)
 
 //------------------------------------------------------------------------------
 
-void Indicator::setValueMin(int value)
+void Indicator::setValueMin(qint64 value)
 {
   if(value > m_ValueMax) return;
   m_ValueMin = value;
@@ -194,7 +194,7 @@ void Indicator::setValueMin(int value)
 
 //------------------------------------------------------------------------------
 
-void Indicator::setValueMax(int value)
+void Indicator::setValueMax(qint64 value)
 {
   if(value < m_ValueMin) return;
   m_ValueMax = value;
@@ -203,7 +203,7 @@ void Indicator::setValueMax(int value)
 
 //------------------------------------------------------------------------------
 
-void Indicator::setDeltaMin(int delta)
+void Indicator::setDeltaMin(qint64 delta)
 {
   foreach(CustomDigit *digit, findChildren<CustomDigit *>())
   {
@@ -223,9 +223,9 @@ void Indicator::setDeltaMin(int delta)
 
 //------------------------------------------------------------------------------
 
-void Indicator::applyDelta(int delta)
+void Indicator::applyDelta(qint64 delta)
 {
-  int value = m_Value + delta;
+  qint64 value = m_Value + delta;
   if(delta < 0 && value < m_ValueMin) return;
   if(delta > 0 && value > m_ValueMax) return;
   setValue(value);

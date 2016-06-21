@@ -12,24 +12,24 @@ class Indicator: public QFrame
 public:
   Indicator(QWidget *parent = 0);
   virtual ~Indicator();
-  int value() {return m_Value;};
+  qint64 value() {return m_Value;};
   void setFont(QFont font);
   void setSize(int size);
-  void setValue(int value);
-  void setValueMin(int value);
-  void setValueMax(int value);
-  void setDeltaMin(int delta);
-  void applyDelta(int delta);
+  void setValue(qint64 value);
+  void setValueMin(qint64 value);
+  void setValueMax(qint64 value);
+  void setDeltaMin(qint64 delta);
+  void applyDelta(qint64 delta);
 
 signals:
-  void valueChanged(int value);
+  void valueChanged(qint64 value);
 
 private:
   QHBoxLayout *m_Layout;
   QFont m_Font;
-  int m_Value;
-  int m_ValueMin;
-  int m_ValueMax;
+  qint64 m_Value;
+  qint64 m_ValueMin;
+  qint64 m_ValueMax;
 };
 
 #endif
