@@ -60,6 +60,8 @@ set(SOURCES
     ChatBox.cpp
     PushButton.cpp
     MyDoubleSlider.cpp
+    DigitSpinner.cpp
+    indicator.cpp
 )
 
 POTHOS_MODULE_UTIL(
