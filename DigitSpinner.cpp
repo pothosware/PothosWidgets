@@ -20,6 +20,10 @@
  * |default "Digit Value"
  * |widget StringEntry()
  *
+ * |param fontSize The font size for the digits in the widget.
+ * |default 12
+ * |widget SpinBox(minimum=8)
+ *
  * |param size The number of configurable digits in the widget.
  * |default 10
  * |widget SpinBox(minimum=1)
@@ -36,6 +40,7 @@
  * |mode graphWidget
  * |factory /widgets/digit_spinner()
  * |setter setTitle(title)
+ * |setter setFontSize(fontSize)
  * |setter setSize(size)
  * |setter setValueMin(minimum)
  * |setter setValueMax(maximum)
@@ -63,6 +68,7 @@ public:
         this->setStyleSheet("QGroupBox {font-weight: bold;}");
 
         this->registerCall(this, POTHOS_FCN_TUPLE(DigitSpinner, setTitle));
+        this->registerCall(this, POTHOS_FCN_TUPLE(DigitSpinner, setFontSize));
         this->registerCall(this, POTHOS_FCN_TUPLE(DigitSpinner, setSize));
         this->registerCall(this, POTHOS_FCN_TUPLE(DigitSpinner, widget));
         this->registerCall(this, POTHOS_FCN_TUPLE(DigitSpinner, value));
@@ -81,6 +87,11 @@ public:
     void setTitle(const QString &title)
     {
         QMetaObject::invokeMethod(this, "handleSetTitle", Qt::QueuedConnection, Q_ARG(QString, title));
+    }
+
+    void setFontSize(const int size)
+    {
+        QMetaObject::invokeMethod(_spinner, "setFontSize", Qt::QueuedConnection, Q_ARG(int, size));
     }
 
     void setSize(const int size)

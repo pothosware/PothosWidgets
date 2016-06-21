@@ -22,17 +22,6 @@ class CustomDigit: public QLabel
 public:
   CustomDigit(QWidget *parent = 0): QLabel(parent), m_Active(true), m_State(0), m_Delta(0) {}
 
-  void resizeEvent(QResizeEvent *event)
-  {
-    float w, h;
-    QFont f = font();
-    QFontMetrics fm(f);
-    w = (float)width() / (float)fm.width(text());
-    h = (float)height() / (float)fm.height();
-    f.setPointSizeF(f.pointSizeF() * qMin(w, h));
-    setFont(f);
-  }
-
   void mouseMoveEvent(QMouseEvent *event)
   {
     if(!m_Active) return;
@@ -96,7 +85,7 @@ public:
 //------------------------------------------------------------------------------
 
 Indicator::Indicator(QWidget *parent):
-  QFrame(parent), m_Layout(0), m_Font(),
+  QFrame(parent), m_Layout(0), m_Font(), m_Size(0),
   m_Value(0), m_ValueMin(0), m_ValueMax(0)
 {
   m_Layout = new QHBoxLayout(this);
@@ -124,11 +113,23 @@ void Indicator::setFont(QFont font)
 
 //------------------------------------------------------------------------------
 
+void Indicator::setFontSize(int size)
+{
+  m_Font.setPointSize(size);
+  setFont(m_Font);
+  setSize(m_Size);
+}
+
+//------------------------------------------------------------------------------
+
 void Indicator::setSize(int size)
 {
-  int i;
+  int i, width;
   CustomDigit *digit;
   QLayoutItem *item;
+  QFontMetrics fm(m_Font);
+
+  width = fm.width('m') / 5 + 1;
 
   while((digit = findChild<CustomDigit *>()))
   {
@@ -143,7 +144,6 @@ void Indicator::setSize(int size)
   for(i = size; i > 0; --i)
   {
     digit = new CustomDigit(this);
-    digit->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     digit->setText(QString::number(0));
     digit->setAlignment(Qt::AlignCenter);
     digit->setFont(m_Font);
@@ -151,9 +151,10 @@ void Indicator::setSize(int size)
     digit->setMouseTracking(true);
     digit->m_Delta = qint64(qPow(10.0, i - 1) + 0.5);
     digit->m_Indicator = this;
-    if(i > 1 && i % 3 == 1) m_Layout->addStretch();
+    if(i > 1 && i % 3 == 1) m_Layout->addSpacing(width);
   }
   m_Layout->addStretch();
+  m_Size = size;
   setValue(m_Value);
 }
 

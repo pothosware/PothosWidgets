@@ -16,6 +16,7 @@ public:
 public slots:
   qint64 value() {return m_Value;};
   void setFont(QFont font);
+  void setFontSize(int size);
   void setSize(int size);
   void setValue(qint64 value);
   void setValueMin(qint64 value);
@@ -29,6 +30,7 @@ signals:
 private:
   QHBoxLayout *m_Layout;
   QFont m_Font;
+  int m_Size;
   qint64 m_Value;
   qint64 m_ValueMin;
   qint64 m_ValueMax;
