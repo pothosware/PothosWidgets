@@ -4,6 +4,9 @@
 #include <Pothos/Framework.hpp>
 #include "MyDoubleSlider.hpp"
 #include <QVariant>
+#include <QGroupBox>
+#include <QVBoxLayout>
+#include <QMouseEvent>
 
 /***********************************************************************
  * |PothosDoc Slider
@@ -13,10 +16,14 @@
  * |category /Widgets
  * |keywords slider
  *
- * |param orientation The slider orientation (horizontal or veritical).
+ * |param title The name of the value displayed by this widget
+ * |default "My Slider Value"
+ * |widget StringEntry()
+ *
+ * |param orientation The slider orientation (horizontal or vertical).
  * |default "Horizontal"
  * |option [Horizontal] "Horizontal"
- * |option [Veritical] "Veritical"
+ * |option [Vertical] "Vertical"
  * |preview disable
  *
  * |param value The initial value of this slider.
@@ -33,12 +40,13 @@
  *
  * |mode graphWidget
  * |factory /widgets/slider(orientation)
+ * |setter setTitle(title)
  * |setter setMinimum(minimum)
  * |setter setMaximum(maximum)
  * |setter setSingleStep(step)
  * |setter setValue(value)
  **********************************************************************/
-class Slider : public MyDoubleSlider, public Pothos::Block
+class Slider : public QGroupBox, public Pothos::Block
 {
     Q_OBJECT
 public:
@@ -49,8 +57,14 @@ public:
     }
 
     Slider(const std::string &orientation):
-        MyDoubleSlider((orientation == "Horizontal")? Qt::Horizontal : Qt::Vertical)
+        _slider(new MyDoubleSlider((orientation == "Horizontal")? Qt::Horizontal : Qt::Vertical))
     {
+        auto layout = new QVBoxLayout(this);
+        layout->setContentsMargins(QMargins());
+        layout->addWidget(_slider);
+        this->setStyleSheet("QGroupBox {font-weight: bold;}");
+
+        this->registerCall(this, POTHOS_FCN_TUPLE(Slider, setTitle));
         this->registerCall(this, POTHOS_FCN_TUPLE(Slider, widget));
         this->registerCall(this, POTHOS_FCN_TUPLE(Slider, value));
         this->registerCall(this, POTHOS_FCN_TUPLE(Slider, setValue));
@@ -58,12 +72,42 @@ public:
         this->registerCall(this, POTHOS_FCN_TUPLE(Slider, setMaximum));
         this->registerCall(this, POTHOS_FCN_TUPLE(Slider, setSingleStep));
         this->registerSignal("valueChanged");
-        connect(this, SIGNAL(valueChanged(const double)), this, SLOT(handleValueChanged(const double)));
+        connect(_slider, SIGNAL(valueChanged(const double)), this, SLOT(handleValueChanged(const double)));
     }
 
     QWidget *widget(void)
     {
         return this;
+    }
+
+    void setTitle(const QString &title)
+    {
+        QMetaObject::invokeMethod(this, "handleSetTitle", Qt::QueuedConnection, Q_ARG(QString, title));
+    }
+
+    double value(void) const
+    {
+        return _slider->value();
+    }
+
+    void setValue(const double value)
+    {
+        _slider->setValue(value);
+    }
+
+    void setMinimum(const double value)
+    {
+        _slider->setMinimum(value);
+    }
+
+    void setMaximum(const double value)
+    {
+        _slider->setMaximum(value);
+    }
+
+    void setSingleStep(const double value)
+    {
+        _slider->setSingleStep(value);
     }
 
     void activate(void)
@@ -89,6 +133,21 @@ private slots:
     {
         this->callVoid("valueChanged", value);
     }
+
+    void handleSetTitle(const QString &title)
+    {
+        QGroupBox::setTitle(title);
+    }
+
+protected:
+    void mousePressEvent(QMouseEvent *event)
+    {
+        QGroupBox::mousePressEvent(event);
+        event->ignore(); //allows for dragging from QGroupBox title
+    }
+
+private:
+    MyDoubleSlider *_slider;
 };
 
 static Pothos::BlockRegistry registerSlider(
