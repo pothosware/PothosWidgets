@@ -17,27 +17,28 @@
  * |keywords spin frequency
  *
  * |param title The name of the value displayed by this widget
- * |default "My Spinner Value"
+ * |default "Digit Value"
  * |widget StringEntry()
  *
+ * |param size The number of configurable digits in the widget.
+ * |default 10
+ * |widget SpinBox(minimum=1)
+ *
  * |param value The initial value of this digit_spinner.
- * |default 0.0
+ * |default 123456789
  *
  * |param minimum The minimum value of this digit_spinner.
- * |default -1.0
+ * |default 0.0
  *
  * |param maximum The maximum value of this digit_spinner.
- * |default 1.0
- *
- * |param step [Step Size] The increment between discrete values.
- * |default 0.01
+ * |default 1e9
  *
  * |mode graphWidget
  * |factory /widgets/digit_spinner()
  * |setter setTitle(title)
+ * |setter setSize(size)
  * |setter setValueMin(minimum)
  * |setter setValueMax(maximum)
- * |setter setDeltaMin(step)
  * |setter setValue(value)
  **********************************************************************/
 class DigitSpinner : public QGroupBox, public Pothos::Block
@@ -53,7 +54,6 @@ public:
     DigitSpinner(void):
         _spinner(new Indicator())
     {
-        _spinner->setSize(8);
         _spinner->setFrameShape(QFrame::Panel);
         _spinner->setFrameShadow(QFrame::Sunken);
 
@@ -63,14 +63,14 @@ public:
         this->setStyleSheet("QGroupBox {font-weight: bold;}");
 
         this->registerCall(this, POTHOS_FCN_TUPLE(DigitSpinner, setTitle));
+        this->registerCall(this, POTHOS_FCN_TUPLE(DigitSpinner, setSize));
         this->registerCall(this, POTHOS_FCN_TUPLE(DigitSpinner, widget));
         this->registerCall(this, POTHOS_FCN_TUPLE(DigitSpinner, value));
         this->registerCall(this, POTHOS_FCN_TUPLE(DigitSpinner, setValue));
         this->registerCall(this, POTHOS_FCN_TUPLE(DigitSpinner, setValueMin));
         this->registerCall(this, POTHOS_FCN_TUPLE(DigitSpinner, setValueMax));
-        this->registerCall(this, POTHOS_FCN_TUPLE(DigitSpinner, setDeltaMin));
         this->registerSignal("valueChanged");
-        connect(_spinner, SIGNAL(valueChanged(const int)), this, SLOT(handleValueChanged(const int)));
+        connect(_spinner, SIGNAL(valueChanged(const qint64)), this, SLOT(handleValueChanged(const qint64)));
     }
 
     QWidget *widget(void)
@@ -81,6 +81,11 @@ public:
     void setTitle(const QString &title)
     {
         QMetaObject::invokeMethod(this, "handleSetTitle", Qt::QueuedConnection, Q_ARG(QString, title));
+    }
+
+    void setSize(const int size)
+    {
+        QMetaObject::invokeMethod(_spinner, "setSize", Qt::QueuedConnection, Q_ARG(int, size));
     }
 
     double value(void) const
@@ -103,11 +108,6 @@ public:
         _spinner->setValueMax(value);
     }
 
-    void setDeltaMin(const double value)
-    {
-        //_spinner->setDeltaMin(value);
-    }
-
     void activate(void)
     {
         //emit current value when design becomes active
@@ -127,7 +127,7 @@ public slots:
     }
 
 private slots:
-    void handleValueChanged(const int value)
+    void handleValueChanged(const qint64 value)
     {
         this->callVoid("valueChanged", value);
     }

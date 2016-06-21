@@ -12,6 +12,8 @@ class Indicator: public QFrame
 public:
   Indicator(QWidget *parent = 0);
   virtual ~Indicator();
+
+public slots:
   qint64 value() {return m_Value;};
   void setFont(QFont font);
   void setSize(int size);
