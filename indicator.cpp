@@ -149,7 +149,7 @@ void Indicator::setSize(int size)
     digit->setFont(m_Font);
     m_Layout->addWidget(digit);
     digit->setMouseTracking(true);
-    digit->m_Delta = (int)(qPow(10.0, i - 1) + 0.5);
+    digit->m_Delta = qint64(qPow(10.0, i - 1) + 0.5);
     digit->m_Indicator = this;
     if(i > 1 && i % 3 == 1) m_Layout->addStretch();
   }
