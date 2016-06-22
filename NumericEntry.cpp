@@ -91,8 +91,8 @@ public:
         this->registerCall(this, POTHOS_FCN_TUPLE(NumericEntry, setSliderVisible));
 
         this->registerSignal("valueChanged");
-        connect(_spinBox, SIGNAL(valueChanged(const double)), this, SLOT(handleValueChanged(const double)));
-        connect(_slider, SIGNAL(valueChanged(const double)), this, SLOT(handleValueChanged(const double)));
+        connect(_spinBox, SIGNAL(valueChanged(const double)), this, SLOT(handleSpinBoxValueChanged(const double)));
+        connect(_slider, SIGNAL(valueChanged(const double)), this, SLOT(handleSliderValueChanged(const double)));
     }
 
     QWidget *widget(void)
@@ -165,14 +165,19 @@ public slots:
     }
 
 private slots:
-    void handleValueChanged(const double value)
+    void handleSpinBoxValueChanged(const double value)
+    {
+        _slider->blockSignals(true);
+        _slider->setValue(value);
+        _slider->blockSignals(false);
+        this->callVoid("valueChanged", value);
+    }
+
+    void handleSliderValueChanged(const double value)
     {
         _spinBox->blockSignals(true);
-        _slider->blockSignals(true);
-        this->setValue(value);
+        _spinBox->setValue(value);
         _spinBox->blockSignals(false);
-        _slider->blockSignals(false);
-
         this->callVoid("valueChanged", value);
     }
 
