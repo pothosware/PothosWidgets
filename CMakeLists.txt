@@ -60,7 +60,7 @@ set(SOURCES
     ChatBox.cpp
     PushButton.cpp
     MyDoubleSlider.cpp
-    DigitSpinner.cpp
+    Odometer.cpp
     indicator.cpp
 )
 
