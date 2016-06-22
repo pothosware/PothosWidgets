@@ -1,3 +1,6 @@
+// Copyright (C) 2016 Pavel Demin
+// SPDX-License-Identifier: BSL-1.0
+
 #ifndef Indicator_h
 #define Indicator_h
 

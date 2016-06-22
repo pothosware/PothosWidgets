@@ -1,3 +1,5 @@
+// Copyright (C) 2016 Pavel Demin
+// SPDX-License-Identifier: BSL-1.0
 
 #include <QtCore/qmath.h>
 #include <QtWidgets/QHBoxLayout>
