@@ -12,9 +12,9 @@
 
 static const QString c_StyleSheets[3] =
 {
-  "",
-  "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(255, 153, 153, 255), stop:0.49 rgba(255, 153, 153, 255), stop:0.50 rgba(0, 0, 0, 0), stop:1 rgba(0, 0, 0, 0))",
-  "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(0, 0, 0, 0), stop:0.50 rgba(0, 0, 0, 0), stop:0.51 rgba(153, 204, 255, 255), stop:1 rgba(153, 204, 255, 255))"
+  "color: %1;",
+  "color: %1; background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(255, 153, 153, 255), stop:0.49 rgba(255, 153, 153, 255), stop:0.50 rgba(0, 0, 0, 0), stop:1 rgba(0, 0, 0, 0))",
+  "color: %1; background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(0, 0, 0, 0), stop:0.50 rgba(0, 0, 0, 0), stop:0.51 rgba(153, 204, 255, 255), stop:1 rgba(153, 204, 255, 255))"
 };
 
 //------------------------------------------------------------------------------
@@ -22,41 +22,28 @@ static const QString c_StyleSheets[3] =
 class CustomDigit: public QLabel
 {
 public:
-  CustomDigit(QWidget *parent = 0): QLabel(parent), m_Active(true), m_State(0), m_Delta(0) {}
+  CustomDigit(QWidget *parent = 0): QLabel(parent), m_Active(true), m_State(0), m_Delta(0), m_Color(Qt::black) {}
 
   void mouseMoveEvent(QMouseEvent *event)
   {
     if(!m_Active) return;
-    QPalette pal;
-    QColor color = palette().color(QPalette::WindowText);
     if(event->y() < height() / 2 && m_State != 1)
     {
       m_State = 1;
-      setStyleSheet(c_StyleSheets[1]);
-      pal = palette();
-      pal.setColor(QPalette::WindowText, color);
-      setPalette(pal);
+      applyStyleSheet();
     }
     if(event->y() > height() / 2 && m_State != 2)
     {
       m_State = 2;
-      setStyleSheet(c_StyleSheets[2]);
-      pal = palette();
-      pal.setColor(QPalette::WindowText, color);
-      setPalette(pal);
+      applyStyleSheet();
     }
   }
 
-  void leaveEvent(QEvent *event)
+  void leaveEvent(QEvent *)
   {
     if(!m_Active) return;
-    QPalette pal;
-    QColor color = palette().color(QPalette::WindowText);
     m_State = 0;
-    setStyleSheet(c_StyleSheets[0]);
-    pal = palette();
-    pal.setColor(QPalette::WindowText, color);
-    setPalette(pal);
+    applyStyleSheet();
   }
 
   void mousePressEvent(QMouseEvent *event)
@@ -78,9 +65,15 @@ public:
     m_Indicator->applyDelta(event->delta() / 90 * m_Delta);
   }
 
+  void applyStyleSheet(void)
+  {
+    setStyleSheet(c_StyleSheets[m_State].arg(m_Color.name()));
+  }
+
   bool m_Active;
   int m_State;
   qint64 m_Delta;
+  QColor m_Color;
   Indicator *m_Indicator;
 };
 
@@ -165,21 +158,12 @@ void Indicator::setSize(int size)
 void Indicator::setValue(qint64 value)
 {
   qint64 quotient;
-  QPalette palette;
   if(value < m_ValueMin || value > m_ValueMax) return;
   foreach(CustomDigit *digit, findChildren<CustomDigit *>())
   {
     quotient = value / digit->m_Delta;
-    palette = digit->palette();
-    if(quotient == 0)
-    {
-      palette.setColor(QPalette::WindowText, QColor(Qt::lightGray));
-    }
-    else
-    {
-      palette.setColor(QPalette::WindowText, QColor(Qt::black));
-    }
-    digit->setPalette(palette);
+    digit->m_Color = (quotient == 0)?Qt::lightGray:Qt::black;
+    digit->applyStyleSheet();
     digit->setText(QString::number(quotient % 10));
   }
   m_Value = value;
