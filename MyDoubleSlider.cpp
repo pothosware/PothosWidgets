@@ -1,7 +1,8 @@
-// Copyright (c) 2014-2014 Josh Blum
+// Copyright (c) 2014-2016 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include "MyDoubleSlider.hpp"
+#include <Pothos/Util/MathCompat.hpp>
 
 MyDoubleSlider::MyDoubleSlider(const Qt::Orientation orientation, QWidget *parent):
     QSlider(orientation, parent),
@@ -24,7 +25,7 @@ void MyDoubleSlider::setValue(const double val)
 {
     double float_norm = val - _minimum;
     double scale = float_norm/(_maximum - _minimum);
-    int int_norm = int(scale*(QSlider::maximum()-QSlider::minimum()));
+    int int_norm = std::lround(scale*(QSlider::maximum()-QSlider::minimum()));
     QSlider::setValue(int_norm + QSlider::minimum());
 }
 
