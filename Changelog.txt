@@ -3,6 +3,7 @@ This this the changelog file for the Pothos Widgets toolkit.
 Release 0.3.1 (pending)
 ==========================
 
+- Added odometer widget with individual digit control
 - Fixed DoubleSlider setValue() by using float rounding
 - Added optional title to slider widget using QGroupBox
 - Added save and restore hooks to all control widgets
