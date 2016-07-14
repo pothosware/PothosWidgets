@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: BSL-1.0
 
 #include "MyDoubleSlider.hpp"
-#include <Pothos/Util/MathCompat.hpp>
+#include <cmath> //lround
 
 MyDoubleSlider::MyDoubleSlider(const Qt::Orientation orientation, QWidget *parent):
     QSlider(orientation, parent),
