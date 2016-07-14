@@ -113,7 +113,7 @@ public:
     void activate(void)
     {
         //emit current value when design becomes active
-        this->callVoid("valueChanged", this->value());
+        this->emitSignal("valueChanged", this->value());
     }
 
 public slots:
@@ -131,7 +131,7 @@ public slots:
 private slots:
     void handleValueChanged(const double value)
     {
-        this->callVoid("valueChanged", value);
+        this->emitSignal("valueChanged", value);
     }
 
     void handleSetTitle(const QString &title)

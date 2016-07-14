@@ -101,8 +101,8 @@ public:
     void activate(void)
     {
         //emit current value when design becomes active
-        this->callVoid("labelChanged", this->label());
-        this->callVoid("valueChanged", this->value());
+        this->emitSignal("labelChanged", this->label());
+        this->emitSignal("valueChanged", this->value());
     }
 
     Pothos::Object value(void) const
@@ -185,8 +185,8 @@ private slots:
 
     void handleIndexChanged(const int)
     {
-        this->callVoid("valueChanged", this->value());
-        this->callVoid("labelChanged", this->label());
+        this->emitSignal("valueChanged", this->value());
+        this->emitSignal("labelChanged", this->label());
     }
 
 private:

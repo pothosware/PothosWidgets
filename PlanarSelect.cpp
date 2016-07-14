@@ -331,8 +331,8 @@ private:
 
     void emitValuesChanged(void)
     {
-        this->callVoid("valueChanged", this->value());
-        this->callVoid("complexValueChanged", this->complexValue());
+        this->emitSignal("valueChanged", this->value());
+        this->emitSignal("complexValueChanged", this->complexValue());
     }
 
     QPointF _minimum;

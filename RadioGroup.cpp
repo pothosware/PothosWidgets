@@ -163,7 +163,7 @@ private slots:
     void handleRadioChanged(const bool toggled)
     {
         if (not toggled) return;
-        this->callVoid("valueChanged", this->value());
+        this->emitSignal("valueChanged", this->value());
     }
 
     void handleSetTitle(const QString &title)
