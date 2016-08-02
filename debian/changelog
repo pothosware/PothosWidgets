@@ -1,3 +1,9 @@
+pothos-widgets (0.4.0) unstable; urgency=low
+
+  * Release 0.4.0 (2016-08-02)
+
+ -- Josh Blum <josh@pothosware.com>  Tue, 02 Aug 2016 14:39:44 -0700
+
 pothos-widgets (0.3.0) unstable; urgency=low
 
   * Release 0.3.0 (2015-12-16)
