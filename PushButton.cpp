@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2015 Josh Blum
+// Copyright (c) 2015-2016 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -22,6 +22,7 @@
  * |param args Arguments to pass into the toggled signal.
  * Example: ["test", 42] - the downstream slot takes two arguments.
  * |default []
+ * |preview valid
  *
  * |mode graphWidget
  * |factory /widgets/push_button()
