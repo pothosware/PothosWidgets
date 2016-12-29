@@ -1,10 +1,11 @@
-// Copyright (c) 2014-2014 Josh Blum
+// Copyright (c) 2014-2016 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Plugin.hpp>
 #include <Pothos/Testing.hpp>
 #include <Pothos/Object/Serialize.hpp>
 #include <Pothos/Callable.hpp>
+#include <iostream>
 #include <sstream>
 #include <QString>
 
