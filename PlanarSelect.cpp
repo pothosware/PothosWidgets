@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Josh Blum
+// Copyright (c) 2014-2017 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -237,7 +237,7 @@ public:
         this->registerSignal("complexValueChanged");
 
         _layout->addWidget(_view);
-        _layout->setContentsMargins(QMargins(0, 0, 0, 0));
+        _layout->setContentsMargins(QMargins());
         _layout->setSpacing(0);
         connect(_view, SIGNAL(positionChanged(const QPointF &)), this, SLOT(handlePositionChanged(const QPointF &)));
     }

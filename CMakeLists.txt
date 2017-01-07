@@ -66,6 +66,7 @@ set(SOURCES
     MyDoubleSlider.cpp
     Odometer.cpp
     indicator.cpp
+    TextEntry.cpp
 )
 
 POTHOS_MODULE_UTIL(
