@@ -67,9 +67,7 @@ public:
 
     void setValue(const QString &value)
     {
-        QMetaObject::invokeMethod(_lineEdit, "setText", Qt::QueuedConnection, Q_ARG(QString, value));
-        _commitedText = value;
-        this->update(value);
+        QMetaObject::invokeMethod(this, "handleSetValue", Qt::QueuedConnection, Q_ARG(QString, value));
     }
 
     QString value(void) const
@@ -101,6 +99,13 @@ public slots:
     }
 
 private slots:
+
+    void handleSetValue(const QString &value)
+    {
+        _lineEdit->setText(value);
+        _commitedText = value;
+        this->update(value);
+    }
 
     void handleTextEdited(const QString &text)
     {
