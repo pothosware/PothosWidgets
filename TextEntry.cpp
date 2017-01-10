@@ -48,7 +48,6 @@ public:
         _lineEdit(new QLineEdit(this))
     {
         _layout->setContentsMargins(QMargins());
-        _layout->setSpacing(0);
         _layout->addWidget(_label);
         _layout->addWidget(_lineEdit);
         this->registerCall(this, POTHOS_FCN_TUPLE(TextEntry, setTitle));
@@ -77,8 +76,7 @@ public:
 
     void setTitle(const QString &title)
     {
-        const auto text = QString("<b>%1:</b> ").arg(title.toHtmlEscaped());
-        QMetaObject::invokeMethod(_label, "setText", Qt::QueuedConnection, Q_ARG(QString, text));
+        QMetaObject::invokeMethod(this, "handleSetTitle", Qt::QueuedConnection, Q_ARG(QString, title));
     }
 
     void activate(void)
@@ -107,6 +105,12 @@ private slots:
         this->update(value);
     }
 
+    void handleSetTitle(const QString &title)
+    {
+        _title = title;
+        this->update(this->value());
+    }
+
     void handleTextEdited(const QString &text)
     {
         this->update(text);
@@ -114,7 +118,7 @@ private slots:
 
     void handleReturnPressed(void)
     {
-        const auto &value = this->value();
+        const auto value = this->value();
         this->emitSignal("valueChanged", value);
         _commitedText = value;
         this->update(value);
@@ -124,16 +128,23 @@ private:
 
     void update(const QString &newValue)
     {
+        const auto title = QString("<b>%1:</b>").arg(_title.toHtmlEscaped());
         if (_commitedText != newValue)
         {
+            _label->setText(title+"*");
             _lineEdit->setStyleSheet("QLineEdit {background-color: pink;}");
+            _layout->setSpacing(0);
         }
         else
         {
+            _label->setText(title);
             _lineEdit->setStyleSheet("QLineEdit {}");
+            QFontMetrics fm(_label->font());
+            _layout->setSpacing(fm.width("*"));
         }
     }
 
+    QString _title;
     QHBoxLayout *_layout;
     QLabel *_label;
     QLineEdit *_lineEdit;
