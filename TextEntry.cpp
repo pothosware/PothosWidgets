@@ -27,10 +27,19 @@
  * |default "Text here"
  * |widget StringEntry()
  *
+ * |param mode The mode controls how valueChanged() signal reacts to changes.
+ * Use the return mode to emit only when the return button is pressed.
+ * Or use the on-edit mode to emit valueChanged() on every text change.
+ * |default "RETURN"
+ * |option [Return] "RETURN"
+ * |option [On-Edit] "ONEDIT"
+ * |preview disable
+ *
  * |mode graphWidget
  * |factory /widgets/text_entry()
  * |setter setTitle(title)
  * |setter setValue(value)
+ * |setter setMode(mode)
  **********************************************************************/
 class TextEntry : public QWidget, public Pothos::Block
 {
@@ -43,6 +52,7 @@ public:
     }
 
     TextEntry(void):
+        _emitOnChange(false),
         _layout(new QHBoxLayout(this)),
         _label(new QLabel(this)),
         _lineEdit(new QLineEdit(this))
@@ -54,6 +64,7 @@ public:
         this->registerCall(this, POTHOS_FCN_TUPLE(TextEntry, widget));
         this->registerCall(this, POTHOS_FCN_TUPLE(TextEntry, value));
         this->registerCall(this, POTHOS_FCN_TUPLE(TextEntry, setValue));
+        this->registerCall(this, POTHOS_FCN_TUPLE(TextEntry, setMode));
         this->registerSignal("valueChanged");
         connect(_lineEdit, SIGNAL(textEdited(const QString &)), this, SLOT(handleTextEdited(const QString &)));
         connect(_lineEdit, SIGNAL(returnPressed(void)), this, SLOT(handleReturnPressed(void)));
@@ -77,6 +88,11 @@ public:
     void setTitle(const QString &title)
     {
         QMetaObject::invokeMethod(this, "handleSetTitle", Qt::QueuedConnection, Q_ARG(QString, title));
+    }
+
+    void setMode(const QString &mode)
+    {
+        _emitOnChange = (mode == "ONEDIT");
     }
 
     void activate(void)
@@ -113,6 +129,11 @@ private slots:
 
     void handleTextEdited(const QString &text)
     {
+        if (_emitOnChange)
+        {
+            this->emitSignal("valueChanged", text);
+            _commitedText = text;
+        }
         this->update(text);
     }
 
@@ -144,6 +165,7 @@ private:
         }
     }
 
+    bool _emitOnChange;
     QString _title;
     QHBoxLayout *_layout;
     QLabel *_label;
