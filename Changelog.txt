@@ -3,6 +3,7 @@ This this the changelog file for the Pothos Widgets toolkit.
 Release 0.4.1 (pending)
 ==========================
 
+- Added arbitrary setValue() slot to text display
 - Added single line text entry block for strings
 - Added missing iostream include for QString test
 - Disable push button arguments preview when empty

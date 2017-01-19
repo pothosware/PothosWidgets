@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Josh Blum
+// Copyright (c) 2014-2017 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -11,6 +11,9 @@
  * The text display widget display's a formatted string.
  * The display value can be set through one of the set*Value() slots.
  * Display values can be strings, floating point, and integers.
+ *
+ * For arbitrary value types, use the generic setValue() slot.
+ * This slot uses the capability of Pothos::Object() to stringify.
  *
  * |category /Widgets
  * |keywords text display label
@@ -61,6 +64,7 @@ public:
         this->registerCall(this, POTHOS_FCN_TUPLE(TextDisplay, setFloatValue));
         this->registerCall(this, POTHOS_FCN_TUPLE(TextDisplay, setComplexValue));
         this->registerCall(this, POTHOS_FCN_TUPLE(TextDisplay, setIntValue));
+        this->registerCall(this, POTHOS_FCN_TUPLE(TextDisplay, setValue));
     }
 
     QWidget *widget(void)
@@ -88,7 +92,7 @@ public:
 
     void setStringValue(const QString &value)
     {
-        _valueStr = _formatStr.arg(value.toHtmlEscaped());
+        _valueStr = _formatStr.arg(value);
         this->update();
     }
 
@@ -107,6 +111,12 @@ public:
     void setIntValue(const int value)
     {
         _valueStr = _formatStr.arg(value, 0, _base);
+        this->update();
+    }
+
+    void setValue(const Pothos::Object &obj)
+    {
+        _valueStr = _formatStr.arg(QString::fromStdString(obj.toString()));
         this->update();
     }
 
