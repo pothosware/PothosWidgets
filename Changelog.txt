@@ -1,6 +1,6 @@
 This this the changelog file for the Pothos Widgets toolkit.
 
-Release 0.4.1 (pending)
+Release 0.4.1 (2017-01-26)
 ==========================
 
 - Added arbitrary setValue() slot to text display
