@@ -131,7 +131,7 @@ private slots:
     {
         if (_emitOnChange)
         {
-            this->emitSignal("valueChanged", text);
+            this->emitSignal("valueChanged", text.toStdString());
             _commitedText = text;
         }
         this->update(text);
@@ -140,7 +140,7 @@ private slots:
     void handleReturnPressed(void)
     {
         const auto value = this->value();
-        this->emitSignal("valueChanged", value);
+        this->emitSignal("valueChanged", value.toStdString());
         _commitedText = value;
         this->update(value);
     }

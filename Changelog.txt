@@ -1,5 +1,10 @@
 This this the changelog file for the Pothos Widgets toolkit.
 
+Release 0.4.2 (pending)
+==========================
+
+- TextEntry emits std::string for portability
+
 Release 0.4.1 (2017-01-26)
 ==========================
 
