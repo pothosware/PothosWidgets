@@ -82,7 +82,7 @@ public:
 
     QString value(void) const
     {
-        return _lineEdit->text();
+        return _commitedText;
     }
 
     void setTitle(const QString &title)
@@ -139,7 +139,7 @@ private slots:
 
     void handleReturnPressed(void)
     {
-        const auto value = this->value();
+        const auto value = _lineEdit->text();
         this->emitSignal("valueChanged", value.toStdString());
         _commitedText = value;
         this->update(value);
