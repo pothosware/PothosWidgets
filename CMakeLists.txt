@@ -67,6 +67,7 @@ set(SOURCES
     Odometer.cpp
     indicator.cpp
     TextEntry.cpp
+    ColoredBox.cpp
 )
 
 POTHOS_MODULE_UTIL(
