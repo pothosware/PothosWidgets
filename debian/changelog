@@ -1,3 +1,9 @@
+pothos-widgets (0.4.2-1) unstable; urgency=low
+
+  * Release 0.4.2 (2017-04-23)
+
+ -- Josh Blum <josh@pothosware.com>  Sun, 23 Apr 2017 20:53:01 -0000
+
 pothos-widgets (0.4.1) unstable; urgency=low
 
   * Release 0.4.1 (2017-01-26)
