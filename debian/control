@@ -8,7 +8,7 @@ Build-Depends:
     libpothos-serialization-dev,
     libpothos-dev,
     qtbase5-dev, libqt5svg5-dev, libqt5opengl5-dev
-Standards-Version: 3.9.6
+Standards-Version: 3.9.8
 Homepage: https://github.com/pothosware/pothos-widgets/wiki
 Vcs-Git: https://github.com/pothosware/pothos-widgets.git
 Vcs-Browser: https://github.com/pothosware/pothos-widgets
@@ -17,11 +17,11 @@ Package: pothos-modules-widgets
 Section: libs
 Architecture: all
 Pre-Depends: ${misc:Pre-Depends}
-Depends: pothos0.4-3-modules-widgets, ${misc:Depends}
+Depends: pothos0.5-modules-widgets, ${misc:Depends}
 Description: graphical control widgets - metapackage
  The Pothos data-flow software suite.
 
-Package: pothos0.4-3-modules-widgets
+Package: pothos0.5-modules-widgets
 Section: libs
 Architecture: any
 Multi-Arch: same
