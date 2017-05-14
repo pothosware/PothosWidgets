@@ -1,5 +1,10 @@
 This this the changelog file for the Pothos Widgets toolkit.
 
+Release 0.4.2 (pending)
+==========================
+
+- Added direction option for radio group layout
+
 Release 0.4.2 (2017-04-23)
 ==========================
 

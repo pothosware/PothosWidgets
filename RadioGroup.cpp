@@ -1,11 +1,11 @@
-// Copyright (c) 2014-2016 Josh Blum
+// Copyright (c) 2014-2017 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
 #include <Pothos/Object/Containers.hpp>
 #include <QGroupBox>
 #include <QRadioButton>
-#include <QVBoxLayout>
+#include <QBoxLayout>
 #include <QMouseEvent>
 #include <map>
 
@@ -22,6 +22,14 @@
  * |default "My Radio Value"
  * |widget StringEntry()
  *
+ * |param direction The layout direction (horizontal or vertical).
+ * |default "TopToBottom"
+ * |option [Left to Right] "LeftToRight"
+ * |option [Right to Left] "RightToLeft"
+ * |option [Top to Bottom] "TopToBottom"
+ * |option [Bottom to Top] "BottomToTop"
+ * |preview disable
+ *
  * |param value The initial selection for this radio group.
  * |default 42
  *
@@ -35,6 +43,7 @@
  * |mode graphWidget
  * |factory /widgets/radio_group()
  * |setter setTitle(title)
+ * |setter setDirection(direction)
  * |setter setOptions(options)
  * |setter setValue(value)
  **********************************************************************/
@@ -49,12 +58,13 @@ public:
     }
 
     RadioGroup(void):
-        _layout(new QVBoxLayout(this))
+        _layout(new QBoxLayout(QBoxLayout::TopToBottom, this))
     {
         this->setStyleSheet("QGroupBox {font-weight: bold;}");
         this->registerCall(this, POTHOS_FCN_TUPLE(RadioGroup, widget));
         this->registerCall(this, POTHOS_FCN_TUPLE(RadioGroup, value));
         this->registerCall(this, POTHOS_FCN_TUPLE(RadioGroup, setTitle));
+        this->registerCall(this, POTHOS_FCN_TUPLE(RadioGroup, setDirection));
         this->registerCall(this, POTHOS_FCN_TUPLE(RadioGroup, setValue));
         this->registerCall(this, POTHOS_FCN_TUPLE(RadioGroup, setOptions));
         this->registerSignal("valueChanged");
@@ -77,6 +87,14 @@ public:
     void setTitle(const QString &title)
     {
         QMetaObject::invokeMethod(this, "handleSetTitle", Qt::QueuedConnection, Q_ARG(QString, title));
+    }
+
+    void setDirection(const QString &direction)
+    {
+        if (direction == "LeftToRight") _layout->setDirection(QBoxLayout::LeftToRight);
+        if (direction == "RightToLeft") _layout->setDirection(QBoxLayout::RightToLeft);
+        if (direction == "TopToBottom") _layout->setDirection(QBoxLayout::TopToBottom);
+        if (direction == "BottomToTop") _layout->setDirection(QBoxLayout::BottomToTop);
     }
 
     Pothos::Object value(void) const
@@ -179,7 +197,7 @@ private:
         _radioToOption.clear();
     }
 
-    QVBoxLayout *_layout;
+    QBoxLayout *_layout;
     std::vector<std::pair<QRadioButton *, Pothos::Object>> _radioToOption;
 };
 
