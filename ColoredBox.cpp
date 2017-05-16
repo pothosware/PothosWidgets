@@ -10,7 +10,7 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <QResizeEvent>
-#include <QStaticText>
+#include <QTextDocument>
 
 /*!
  * The text on the colored box
@@ -20,27 +20,30 @@ class ColoredBoxGraphicsText : public QGraphicsObject
     Q_OBJECT
 public:
     ColoredBoxGraphicsText(void):
-        _size(12)
+        _size(12),
+        _td(new QTextDocument(this))
     {
-        QTextOption to;
-        to.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
-        _st.setTextOption(to);
+        this->setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     }
 
     QRectF boundingRect(void) const
     {
-        return QRectF(QPointF(), _st.size());
+        return QRectF(QPointF(), _td->size());
     }
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
     {
         const auto w = this->scene()->width();
         const auto h = this->scene()->height();
-        _st.setTextWidth(w);
-        const auto size = _st.size();
-        painter->drawStaticText(QPointF(
+        _td->setTextWidth(w*0.9);
+        const auto size = _td->size();
+
+        painter->save();
+        painter->translate(
             (w-size.width())/2,
-            (h-size.height())/2), _st);
+            (h-size.height())/2);
+        _td->drawContents(painter);
+        painter->restore();
     }
 
 public slots:
@@ -65,7 +68,7 @@ public slots:
 private:
     void updateStaticText(void)
     {
-        _st.setText(QString("<span style='color:%1;font-size:%2pt;'>%3</span>")
+        _td->setHtml(QString("<span style='color:%1;font-size:%2pt;'>%3</span>")
             .arg((_color.lightnessF() > 0.5)?"black":"white")
             .arg(_size)
             .arg(_text.toHtmlEscaped()));
@@ -74,7 +77,7 @@ private:
     QString _text;
     int _size;
     QColor _color;
-    QStaticText _st;
+    QTextDocument *_td;
 };
 
 /*!
