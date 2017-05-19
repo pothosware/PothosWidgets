@@ -71,7 +71,7 @@ private:
         _td->setHtml(QString("<span style='color:%1;font-size:%2pt;'>%3</span>")
             .arg((_color.lightnessF() > 0.5)?"black":"white")
             .arg(_size)
-            .arg(_text.toHtmlEscaped()));
+            .arg(_text.toHtmlEscaped().replace("\n", "<br />")));
     }
 
     QString _text;
