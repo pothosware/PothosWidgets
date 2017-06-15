@@ -1,6 +1,6 @@
 This this the changelog file for the Pothos Widgets toolkit.
 
-Release 0.4.3 (pending)
+Release 0.4.3 (2017-06-14)
 ==========================
 
 - Added optional text for the colored box contents
