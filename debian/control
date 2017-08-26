@@ -8,9 +8,9 @@ Build-Depends:
     libpothos-dev,
     qtbase5-dev, libqt5svg5-dev, libqt5opengl5-dev
 Standards-Version: 3.9.8
-Homepage: https://github.com/pothosware/pothos-widgets/wiki
-Vcs-Git: https://github.com/pothosware/pothos-widgets.git
-Vcs-Browser: https://github.com/pothosware/pothos-widgets
+Homepage: https://github.com/pothosware/PothosWidgets/wiki
+Vcs-Git: https://github.com/pothosware/PothosWidgets.git
+Vcs-Browser: https://github.com/pothosware/PothosWidgets
 
 Package: pothos-modules-widgets
 Section: libs

@@ -1,5 +1,9 @@
 # Graphical widgets to supplement the Pothos GUI
 
+## Documentation
+
+* https://github.com/pothosware/PothosWidgets/wiki
+
 ## Dependencies
 
 * Pothos library
