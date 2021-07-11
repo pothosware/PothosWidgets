@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2017 Josh Blum
+// Copyright (c) 2017-2021 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -161,7 +161,7 @@ private:
             _label->setText(title);
             _lineEdit->setStyleSheet("QLineEdit {}");
             QFontMetrics fm(_label->font());
-            _layout->setSpacing(fm.width("*"));
+            _layout->setSpacing(fm.horizontalAdvance("*"));
         }
     }
 

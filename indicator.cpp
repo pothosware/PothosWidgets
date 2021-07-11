@@ -1,4 +1,5 @@
 // Copyright (C) 2016 Pavel Demin
+// Copyright (c) 2021-2021 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <QtCore/qmath.h>
@@ -62,7 +63,8 @@ public:
   void wheelEvent(QWheelEvent *event)
   {
     if(!m_Active) return;
-    m_Indicator->applyDelta(event->delta() / 90 * m_Delta);
+    m_Indicator->applyDelta(event->angleDelta().y() / 90 * m_Delta);
+    event->accept();
   }
 
   void applyStyleSheet(void)
@@ -124,7 +126,7 @@ void Indicator::setSize(int size)
   QLayoutItem *item;
   QFontMetrics fm(m_Font);
 
-  width = fm.width('m') / 5 + 1;
+  width = fm.horizontalAdvance('m') / 5 + 1;
 
   while((digit = findChild<CustomDigit *>()))
   {
