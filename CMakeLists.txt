@@ -1,7 +1,7 @@
 ########################################################################
 # Project setup
 ########################################################################
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required(VERSION 3.1.0)
 project(PothosWidgets CXX)
 
 if(${CMAKE_PROJECT_NAME} STREQUAL ${PROJECT_NAME})
@@ -16,35 +16,17 @@ if (CMAKE_PREFIX_PATH)
 endif (CMAKE_PREFIX_PATH)
 
 ########################################################################
-# QT5 devel setup
+# Qt devel setup
 ########################################################################
-#http://www.kdab.com/using-cmake-with-qt-5/
-# Tell CMake to run moc when necessary:
+find_package(Qt5 COMPONENTS Widgets)
 set(CMAKE_AUTOMOC ON)
-# As moc files are generated in the binary dir, tell CMake
-# to always look for includes there:
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-unset(Qt5Enables)
-foreach(comp Widgets Concurrent OpenGL Svg PrintSupport)
-    find_package(Qt5${comp})
-    set(Qt5Enables "${Qt5Enables};Qt5${comp}_FOUND")
-
-    if(Qt5${comp}_FOUND)
-        include_directories(${Qt5${comp}_INCLUDE_DIRS})
-        add_definitions(${Qt5${comp}_DEFINITIONS})
-        list(APPEND Qt5_LIBRARIES ${Qt5${comp}_LIBRARIES})
-    else()
-        MESSAGE(WARNING "Cant find Qt5${comp}")
-    endif()
-endforeach(comp)
 
 ########################################################################
 ## Feature registration
 ########################################################################
 include(FeatureSummary)
 include(CMakeDependentOption)
-cmake_dependent_option(ENABLE_WIDGETS "Enable Pothos Widgets component" ON "Pothos_FOUND;${Qt5Enables}" OFF)
+cmake_dependent_option(ENABLE_WIDGETS "Enable Pothos Widgets component" ON "Pothos_FOUND;Qt5_FOUND" OFF)
 add_feature_info(Widgets ENABLE_WIDGETS "Graphical control widgets for the GUI")
 if (NOT ENABLE_WIDGETS)
     return()
@@ -73,8 +55,7 @@ set(SOURCES
 POTHOS_MODULE_UTIL(
     TARGET ControlWidgets
     SOURCES ${SOURCES}
-    LIBRARIES
-        ${Qt5_LIBRARIES}
+    LIBRARIES Qt5::Widgets
     DESTINATION widgets
     ENABLE_DOCS
 )
