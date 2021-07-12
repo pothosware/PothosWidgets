@@ -59,3 +59,9 @@ POTHOS_MODULE_UTIL(
     DESTINATION widgets
     ENABLE_DOCS
 )
+
+#Qt 5.11 introduced QFontMetrics::horizontalAdvance() to replace width
+#this simple define keeps slightly older versions of Qt compiling for now
+if ("${Qt5_VERSION}" VERSION_LESS "5.11")
+    target_compile_definitions(ControlWidgets PRIVATE -DhorizontalAdvance=width)
+endif()
