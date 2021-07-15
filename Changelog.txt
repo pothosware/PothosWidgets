@@ -3,6 +3,7 @@ This this the changelog file for the Pothos Widgets toolkit.
 Release 0.5.1 (pending)
 ==========================
 
+- Update build to support Qt6 and newer cmake target style
 - Fixed deprecated Qt API usage in odometer and text entry
 - Fix odometer wheel event, accept and do not propagate event
 
