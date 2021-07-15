@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017 Josh Blum
+// Copyright (c) 2014-2021 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -111,7 +111,9 @@ public:
 
         //set high quality rendering
         this->setRenderHint(QPainter::Antialiasing);
+        #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         this->setRenderHint(QPainter::HighQualityAntialiasing);
+        #endif
         this->setRenderHint(QPainter::SmoothPixmapTransform);
 
         //forward position changed signal

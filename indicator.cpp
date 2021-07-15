@@ -28,12 +28,12 @@ public:
   void mouseMoveEvent(QMouseEvent *event)
   {
     if(!m_Active) return;
-    if(event->y() < height() / 2 && m_State != 1)
+    if(event->pos().y() < height() / 2 && m_State != 1)
     {
       m_State = 1;
       applyStyleSheet();
     }
-    if(event->y() > height() / 2 && m_State != 2)
+    if(event->pos().y() > height() / 2 && m_State != 2)
     {
       m_State = 2;
       applyStyleSheet();
@@ -50,11 +50,11 @@ public:
   void mousePressEvent(QMouseEvent *event)
   {
     if(!m_Active) return;
-    if(event->y() < height() / 2)
+    if(event->pos().y() < height() / 2)
     {
       m_Indicator->applyDelta(m_Delta);
     }
-    if(event->y() > height() / 2)
+    if(event->pos().y() > height() / 2)
     {
       m_Indicator->applyDelta(-m_Delta);
     }
