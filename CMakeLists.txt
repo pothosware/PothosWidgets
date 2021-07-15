@@ -18,7 +18,9 @@ endif (CMAKE_PREFIX_PATH)
 ########################################################################
 # Qt devel setup
 ########################################################################
-find_package(Qt5 COMPONENTS Widgets)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Concurrent)
+message(STATUS "QT_VERSION_MAJOR=${QT_VERSION_MAJOR}")
 set(CMAKE_AUTOMOC ON)
 
 ########################################################################
@@ -26,7 +28,7 @@ set(CMAKE_AUTOMOC ON)
 ########################################################################
 include(FeatureSummary)
 include(CMakeDependentOption)
-cmake_dependent_option(ENABLE_WIDGETS "Enable Pothos Widgets component" ON "Pothos_FOUND;Qt5_FOUND" OFF)
+cmake_dependent_option(ENABLE_WIDGETS "Enable Pothos Widgets component" ON "Pothos_FOUND;Qt${QT_VERSION_MAJOR}_FOUND" OFF)
 add_feature_info(Widgets ENABLE_WIDGETS "Graphical control widgets for the GUI")
 if (NOT ENABLE_WIDGETS)
     return()
@@ -55,13 +57,13 @@ set(SOURCES
 POTHOS_MODULE_UTIL(
     TARGET ControlWidgets
     SOURCES ${SOURCES}
-    LIBRARIES Qt5::Widgets
+    LIBRARIES Qt${QT_VERSION_MAJOR}::Widgets
     DESTINATION widgets
     ENABLE_DOCS
 )
 
 #Qt 5.11 introduced QFontMetrics::horizontalAdvance() to replace width
 #this simple define keeps slightly older versions of Qt compiling for now
-if ("${Qt5_VERSION}" VERSION_LESS "5.11")
+if ("${Qt${QT_VERSION_MAJOR}_VERSION}" VERSION_LESS "5.11")
     target_compile_definitions(ControlWidgets PRIVATE -DhorizontalAdvance=width)
 endif()
