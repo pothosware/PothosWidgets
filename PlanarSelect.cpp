@@ -111,9 +111,6 @@ public:
 
         //set high quality rendering
         this->setRenderHint(QPainter::Antialiasing);
-        #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        this->setRenderHint(QPainter::HighQualityAntialiasing);
-        #endif
         this->setRenderHint(QPainter::SmoothPixmapTransform);
 
         //forward position changed signal
