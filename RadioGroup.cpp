@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017 Josh Blum
+// Copyright (c) 2014-2021 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -162,7 +162,7 @@ private slots:
             auto title = optPair.at(0).convert<QString>();
             auto value = optPair.at(1);
             auto radio = new QRadioButton(title, this);
-            connect(radio, SIGNAL(toggled(bool)), this, SLOT(handleRadioChanged(bool)));
+            connect(radio, &QRadioButton::toggled, this, &RadioGroup::handleRadioChanged);
             _radioToOption.push_back(std::make_pair(radio, value));
             _layout->addWidget(radio);
         }

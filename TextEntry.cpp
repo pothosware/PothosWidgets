@@ -66,8 +66,8 @@ public:
         this->registerCall(this, POTHOS_FCN_TUPLE(TextEntry, setValue));
         this->registerCall(this, POTHOS_FCN_TUPLE(TextEntry, setMode));
         this->registerSignal("valueChanged");
-        connect(_lineEdit, SIGNAL(textEdited(const QString &)), this, SLOT(handleTextEdited(const QString &)));
-        connect(_lineEdit, SIGNAL(returnPressed(void)), this, SLOT(handleReturnPressed(void)));
+        connect(_lineEdit, &QLineEdit::textEdited, this, &TextEntry::handleTextEdited);
+        connect(_lineEdit, &QLineEdit::returnPressed, this, &TextEntry::handleReturnPressed);
     }
 
     QWidget *widget(void)

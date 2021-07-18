@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Josh Blum
+// Copyright (c) 2014-2021 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -69,7 +69,7 @@ public:
 
         qRegisterMetaType<Pothos::Object>("Pothos::Object");
         qRegisterMetaType<Pothos::ObjectVector>("Pothos::ObjectVector");
-        connect(_comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(handleIndexChanged(int)));
+        connect(_comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &DropDown::handleIndexChanged);
     }
 
     /*!

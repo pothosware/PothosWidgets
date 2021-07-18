@@ -114,7 +114,7 @@ public:
         this->setRenderHint(QPainter::SmoothPixmapTransform);
 
         //forward position changed signal
-        connect(_crossHairs, SIGNAL(positionChanged(const QPointF &)), this, SLOT(handleCrossHairsPointChanged(const QPointF &)));
+        connect(_crossHairs, &PlanarSelectCrossHairs::positionChanged, this, &PlanarSelectGraphicsView::handleCrossHairsPointChanged);
     }
 
     QPointF getPosition(void) const
@@ -238,7 +238,7 @@ public:
         _layout->addWidget(_view);
         _layout->setContentsMargins(QMargins());
         _layout->setSpacing(0);
-        connect(_view, SIGNAL(positionChanged(const QPointF &)), this, SLOT(handlePositionChanged(const QPointF &)));
+        connect(_view, &PlanarSelectGraphicsView::positionChanged, this, &PlanarSelect::handlePositionChanged);
     }
 
     QWidget *widget(void)

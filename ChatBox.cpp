@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2016 Josh Blum
+// Copyright (c) 2015-2021 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -69,7 +69,7 @@ public:
         _chatDisplay->setReadOnly(true);
 
         //widget signals
-        connect(_chatEntry, SIGNAL(returnPressed(void)), this, SLOT(handleEntry(void)));
+        connect(_chatEntry, &QLineEdit::returnPressed, this, &ChatBox::handleEntry);
 
         //calls
         this->registerCall(this, POTHOS_FCN_TUPLE(ChatBox, widget));

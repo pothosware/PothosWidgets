@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Josh Blum
+// Copyright (c) 2014-2021 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -91,8 +91,8 @@ public:
         this->registerCall(this, POTHOS_FCN_TUPLE(NumericEntry, setSliderVisible));
 
         this->registerSignal("valueChanged");
-        connect(_spinBox, SIGNAL(valueChanged(const double)), this, SLOT(handleSpinBoxValueChanged(const double)));
-        connect(_slider, SIGNAL(valueChanged(const double)), this, SLOT(handleSliderValueChanged(const double)));
+        connect(_spinBox, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &NumericEntry::handleSpinBoxValueChanged);
+        connect(_slider, &MyDoubleSlider::valueChanged, this, &NumericEntry::handleSliderValueChanged);
     }
 
     QWidget *widget(void)

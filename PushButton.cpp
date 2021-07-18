@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2016 Josh Blum
+// Copyright (c) 2015-2021 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -47,7 +47,7 @@ public:
         this->registerCall(this, POTHOS_FCN_TUPLE(PushButton, setTitle));
         this->registerCall(this, POTHOS_FCN_TUPLE(PushButton, setArgs));
         this->registerCall(this, POTHOS_FCN_TUPLE(PushButton, getArgs));
-        connect(this, SIGNAL(clicked(void)), this, SLOT(handleClicked(void)));
+        connect(this, &QPushButton::clicked, this, &PushButton::handleClicked);
     }
 
     QWidget *widget(void)

@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2016 Josh Blum
+// Copyright (c) 2016-2021 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include <Pothos/Framework.hpp>
@@ -81,7 +81,7 @@ public:
         this->registerCall(this, POTHOS_FCN_TUPLE(Odometer, setValueMin));
         this->registerCall(this, POTHOS_FCN_TUPLE(Odometer, setValueMax));
         this->registerSignal("valueChanged");
-        connect(_indicator, SIGNAL(valueChanged(const qint64)), this, SLOT(handleValueChanged(const qint64)));
+        connect(_indicator, &Indicator::valueChanged, this, &Odometer::handleValueChanged);
     }
 
     QWidget *widget(void)

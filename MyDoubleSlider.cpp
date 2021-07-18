@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Josh Blum
+// Copyright (c) 2014-2021 Josh Blum
 // SPDX-License-Identifier: BSL-1.0
 
 #include "MyDoubleSlider.hpp"
@@ -10,7 +10,7 @@ MyDoubleSlider::MyDoubleSlider(const Qt::Orientation orientation, QWidget *paren
     _maximum(100.0),
     _stepSize(1.0)
 {
-    connect(this, SIGNAL(valueChanged(int)), this, SLOT(handleIntValueChanged(int)));
+    connect(this, &QSlider::valueChanged, this, &MyDoubleSlider::handleIntValueChanged);
 }
 
 double MyDoubleSlider::value(void) const
