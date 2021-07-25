@@ -1,6 +1,6 @@
 This this the changelog file for the Pothos Widgets toolkit.
 
-Release 0.5.1 (pending)
+Release 0.5.1 (2021-07-25)
 ==========================
 
 - Update build to support Qt6 and newer cmake target style
